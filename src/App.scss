@@ -7,17 +7,17 @@ header {
   color: #173f6f;
 }
 #container {
-  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   height: 100vh;
 
   #content-box {
-    margin-top: 100px;
-    padding: 24px;
     display: flex;
     flex-direction: column;
+    margin-top: 100px;
+    padding: 24px;
     width: 700px;
 
     #inputs {

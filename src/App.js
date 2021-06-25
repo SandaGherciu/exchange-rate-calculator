@@ -31,10 +31,12 @@ function App() {
     const { value } = event.target;
     setCurrencyFrom(value);
   };
+
   const handleSelectTo = (event) => {
     const { value } = event.target;
     setCurrencyTo(value);
   };
+
   const handleSwap = () => {
     setCurrencyFrom(currencyTo);
     setCurrencyTo(currencyFrom);
@@ -43,15 +45,16 @@ function App() {
   useEffect(() => {
     const fetchConversionRates = async () => {
       const result = await fetch(
-        `https://v6.exchangerate-api.com/v6/ed66962687fdf4b5a9afb6c6/latest/${currencyFrom}`
+        `https://v6.exchangerate-api.com/v6/ed66962687fdf4b5a9afb6c6/pair/${currencyFrom}/${currencyTo}`
       );
+      console.log(result);
       if (result.ok) {
         const rates = await result.json();
-        setRate(rates.conversion_rates[currencyTo]);
+        setRate(rates.conversion_rate);
       }
     };
     fetchConversionRates();
-  });
+  }, [currencyFrom, currencyTo]);
 
   return (
     <div className="App">
@@ -68,18 +71,20 @@ function App() {
               type="number"
               value={inputFrom}
               onChange={handleChangeFrom}
-            ></input>
+            />
+
             <input
               id="amountTo"
               type="number"
               value={inputTo}
               onChange={handleChangeTo}
-            ></input>
+            />
           </div>
 
           <p>
             1 {currencyFrom} = {rate} {currencyTo}
           </p>
+
           <div id="selectors">
             <select onChange={handleSelectFrom} value={currencyFrom}>
               {Object.keys(currencies).map((currency, index) => (
@@ -88,6 +93,7 @@ function App() {
                 </option>
               ))}
             </select>
+
             <button id="swap-icon">
               <FontAwesomeIcon
                 icon={faSyncAlt}
